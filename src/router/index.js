@@ -18,7 +18,7 @@ const routes = [
             component: () => import('@/views/requests/Index.vue'),
           },
           {
-            path: '/incoming-requests',
+            path: 'incoming-requests',
             name: 'incoming-requests',
             component: () => import('@/views/requests/Incoming.vue'),
           }

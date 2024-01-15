@@ -10,14 +10,14 @@
           </div>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary">Согласовать</v-btn>
+          <v-btn :color="incoming ? 'primary' : 'error'">{{ incoming ? 'Согласовать' : 'Отменить'}}</v-btn>
         </v-card-actions>
     </v-card-item>
   </v-card>
 </template>
 <script>
 export default {
-  name: 'MyRequestCard',
+  name: 'RequestCard',
   props: {
     card: {
       number: '',
@@ -25,7 +25,8 @@ export default {
         task: '',
         state: '',
         comment: ''
-    }
+    },
+    incoming: false
   }
 }
 </script>

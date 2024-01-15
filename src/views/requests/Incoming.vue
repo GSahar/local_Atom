@@ -1,14 +1,14 @@
 <template>
-  <v-container>
+   <v-container>
     <v-row>
       <v-col v-for="card in cards">
-        <request-card :card="card" />
+        <request-card :card="card" incoming="true"/>
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
-import RequestCard from '@/components/request/Card.vue';
+import RequestCard from '@/components/request/Card.vue'
 export default {
   components:{
     'request-card': RequestCard
@@ -55,12 +55,6 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-.request-body{
-  overflow: hidden;
-  p{
-      font-size: 14px;
-    text-overflow: ellipsis;
-  }
-}
+<style lang="">
+
 </style>

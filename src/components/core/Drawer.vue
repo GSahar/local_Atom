@@ -18,11 +18,12 @@
             <v-list-item
               title="Мои заявки"
               value="my-requests"
-              to="/idm/my-requests"
+              :to="{name: 'my-requests'}"
             ></v-list-item>
             <v-list-item
               title="Входящие заявки"
               value="incoming-requests"
+              :to="{name: 'incoming-requests'}"
             ></v-list-item>
           </v-list-group>
 
