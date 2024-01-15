@@ -5,7 +5,6 @@
         theme="light"
       >
         <v-list nav>
-
           <v-list-group value="requests">
             <template v-slot:activator="{ props }">
               <v-list-item
@@ -27,8 +26,34 @@
             ></v-list-item>
           </v-list-group>
 
+          <v-list-group value="references">
+            <template v-slot:activator="{ props }">
+              <v-list-item
+                v-bind="props"
+                prepend-icon="mdi-folder-account"
+                title="Справочники"
+                value="reference"
+              ></v-list-item>
+            </template>
+            <v-list-item
+              title="Пользователи"
+              value="users"
+              :to="{name: 'users'}"
+            ></v-list-item>
+            <v-list-item
+              title="Роли"
+              value="roles"
+              :to="{name: 'roles'}"
+            ></v-list-item>
+            <v-list-item
+              title="Информационные системы"
+              value="incoming-requests"
+              :to="{name: 'tasks'}"
+            ></v-list-item>
+          </v-list-group>
 
-          <v-list-item prepend-icon="mdi-folder-account" title="Справочники" value="reference"></v-list-item>
+
+
           <v-list-item prepend-icon="mdi-cog" title="Администрирование" value="administration"></v-list-item>
           <v-list-item prepend-icon="mdi-eye-circle" title="Аудит" value="audit"></v-list-item>
           <v-list-item prepend-icon="mdi-chart-box" title="Отчеты" value="reports"></v-list-item>
