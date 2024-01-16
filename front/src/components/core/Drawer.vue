@@ -1,0 +1,79 @@
+<template >
+ <v-navigation-drawer
+        app
+        v-model="getDrawerState"
+        theme="light"
+      >
+        <v-list nav>
+          <v-list-group value="requests">
+            <template v-slot:activator="{ props }">
+              <v-list-item
+                v-bind="props"
+                prepend-icon="mdi-list-box"
+                title="Заявки"
+                value="requests"
+              ></v-list-item>
+            </template>
+            <v-list-item
+              title="Мои заявки"
+              value="my-requests"
+              :to="{name: 'my-requests'}"
+            ></v-list-item>
+            <v-list-item
+              title="Входящие заявки"
+              value="incoming-requests"
+              :to="{name: 'incoming-requests'}"
+            ></v-list-item>
+          </v-list-group>
+
+          <v-list-group value="references">
+            <template v-slot:activator="{ props }">
+              <v-list-item
+                v-bind="props"
+                prepend-icon="mdi-folder-account"
+                title="Справочники"
+                value="reference"
+              ></v-list-item>
+            </template>
+            <v-list-item
+              title="Пользователи"
+              value="users"
+              :to="{name: 'users'}"
+            ></v-list-item>
+            <v-list-item
+              title="Роли"
+              value="roles"
+              :to="{name: 'roles'}"
+            ></v-list-item>
+            <v-list-item
+              title="Информационные системы"
+              value="incoming-requests"
+              :to="{name: 'tasks'}"
+            ></v-list-item>
+          </v-list-group>
+
+
+
+          <v-list-item prepend-icon="mdi-cog" title="Администрирование" value="administration"></v-list-item>
+          <v-list-item prepend-icon="mdi-eye-circle" title="Аудит" value="audit"></v-list-item>
+          <v-list-item prepend-icon="mdi-chart-box" title="Отчеты" value="reports"></v-list-item>
+
+        </v-list>
+      </v-navigation-drawer>
+</template>
+<script>
+import {mapGetters} from 'vuex'
+export default {
+   name: 'CoreDrawer',
+   computed: {
+    ...mapGetters(['getDrawerState']),
+
+   },
+   methods: {
+   }
+}
+</script>
+<style lang="scss">
+
+
+</style>
