@@ -40,18 +40,10 @@
 </template>
 <script>
 import router from '@/router';
+import store from '@/store';
 
  const users = [
-    {
-      id: 1,
-      name: 'Иванов Иван Иванович',
-      job: 'Отдел технического анализа'
-    },
-    {
-      id: 2,
-      name: 'Афонина Антонина Семёновна',
-      job: 'Бухгалтерия'
-    }
+
   ]
 
 export default {
@@ -67,23 +59,47 @@ export default {
         { title: 'Место работы',
           align: 'start',
           sortable: true,
+          key: 'place', },
+        { title: 'Должность',
+          align: 'start',
+          sortable: true,
           key: 'job', },
         { title: '', align: 'end', key: 'actions', sortable: false }
       ],
+      items: store.getters.getUsers.map(user => {
+        return {
+          ...user,
+          name: user.lastName + ' ' + user.firstName + ' ' + user.secondName
+        }
+      }),
       serverItems: [],
       loading: false,
       totalItems: 0,
-      items: users,
       total:5,
       searchValue: ''
     }),
+  computed: {
+
+  },
   methods: {
     search(){
-        this.items = users?.filter(user =>  (user.name.toUpperCase().indexOf(this.searchValue.toUpperCase()??'') > -1))??[];
+        this.items =
+            users?.filter(user => ((user.lastName + ' ' + user.firstName + ' ' + user.secondName).toUpperCase().indexOf(this.searchValue.toUpperCase()??'') > -1 ||
+                                user.place.toUpperCase().indexOf(this.searchValue.toUpperCase()??'') > -1 ||
+                                user.job.toUpperCase().indexOf(this.searchValue.toUpperCase()??'') > -1))
+                  .map(user => {
+                    return {
+                      ...user,
+                      name: user.lastName + ' ' + user.firstName + ' ' + user.secondName
+                    };
+                  })??[];
     },
     editUser(item){
       router.push({name: 'editingUser', params: {id: item.id}})
     }
+  },
+  mounted: function(){
+    //console.log();
   }
 }
 </script>

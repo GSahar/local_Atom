@@ -22,7 +22,7 @@
         :key="1"
         :value="1"
       >
-        <v-card>
+        <v-card >
           <v-container>
             <v-row>
               <v-spacer></v-spacer>
@@ -31,30 +31,35 @@
                   <v-text-field
                     name="lastName"
                     label="Фамилия"
+                    variant="underlined"
                     v-model="user.lastName"
                     @update:modelValue="onChange()"
                   ></v-text-field>
                   <v-text-field
                     name="firstName"
                     label="Имя"
+                    variant="underlined"
                     v-model="user.firstName"
                     @update:modelValue="onChange()"
                   ></v-text-field>
                   <v-text-field
                     name="secpndName"
                     label="Отчество"
+                    variant="underlined"
                     v-model="user.secondName"
                     @update:modelValue="onChange()"
                   ></v-text-field>
                   <v-text-field
                     name="place"
                     label="Место работы"
+                    variant="underlined"
                     v-model="user.place"
                     @update:modelValue="onChange()"
                   ></v-text-field>
                   <v-text-field
                     name="job"
                     label="Должность"
+                    variant="underlined"
                     v-model="user.job"
                     @update:modelValue="onChange()"
                   ></v-text-field>
@@ -115,28 +120,11 @@
         Третья вкладка
       </v-window-item>
     </v-window>
-  <!-- <v-container>
-    <v-row>
-      <v-col cols="1">
-        <v-btn :to="{name: 'users'}">Назад</v-btn>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="1" class="w-100 h-100">
-
-      </v-col>
-    </v-row>
-  </v-container> -->
-  <!-- <div class="d-flex flex-direction-column w-100">
-    <nav class="d-block h-10">
-
-    </nav>
-    <v-divider></v-divider>
-
-  </div> -->
 </template>
 <script>
-import common from '@/services/common.js'
+import common from '@/services/common.js';
+import store from '@/store';
+
 export default {
   name: 'EditingUser',
   props: ['id'],
@@ -172,8 +160,14 @@ export default {
     },
     edited: false
   }),
-  mounted: function(){
-    new Promise((resolve,reject) => resolve(common.copyObject(this.refUser))).then(result => this.user = result);
+  mounted: async function(){
+   await new Promise((resolve) => resolve(common.copyObject(store.getters.getUsers.find(user => user.id == this.id))))
+      .then(result => {
+        console.log('After then',result);
+        this.refUser = result
+      });
+   await new Promise((resolve,reject) => resolve(common.copyObject(this.refUser)))
+    .then(result => this.user = result);
   }
 }
 </script>
