@@ -24,7 +24,7 @@
         size="small"
         class="me-2"
         color="primary"
-        @click="console.log('edit ' + item.name)"
+        @click="editUser(item)"
       >
         mdi-pencil
       </v-icon>
@@ -39,12 +39,16 @@
   </v-data-table>
 </template>
 <script>
+import router from '@/router';
+
  const users = [
     {
+      id: 1,
       name: 'Иванов Иван Иванович',
       job: 'Отдел технического анализа'
     },
     {
+      id: 2,
       name: 'Афонина Антонина Семёновна',
       job: 'Бухгалтерия'
     }
@@ -76,6 +80,9 @@ export default {
   methods: {
     search(){
         this.items = users?.filter(user =>  (user.name.toUpperCase().indexOf(this.searchValue.toUpperCase()??'') > -1))??[];
+    },
+    editUser(item){
+      router.push({name: 'editingUser', params: {id: item.id}})
     }
   }
 }
