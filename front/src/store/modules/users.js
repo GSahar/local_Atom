@@ -9,7 +9,10 @@ export default {
         firstName: 'Иван',
         secondName: 'Иванович',
         place: 'Отдел технического анализа',
-        job: 'Аналитик'
+        job: 'Аналитик',
+        photo: '',
+        roles: [],
+        task_roles: []
       },
       {
         id: 2,
@@ -17,7 +20,10 @@ export default {
         firstName: 'Антонина',
         secondName: 'Семеновна',
         place: 'Бухгалтерия',
-        job: 'Бухгалтер'
+        job: 'Бухгалтер',
+        photo: '',
+        roles: [],
+        task_roles: []
       },
       {
         id: 3,
@@ -25,7 +31,10 @@ export default {
         firstName: 'Ольга',
         secondName: 'Ивановна',
         place: 'Отдел технического контроля',
-        job: 'Контроллер'
+        job: 'Контроллер',
+        photo: '',
+        roles: [],
+        task_roles: []
       }
     ]
   },
