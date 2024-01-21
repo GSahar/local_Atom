@@ -35,13 +35,20 @@
         :key="2"
         :value="2"
       >
-        Вторая вкладка
+        <editing-user-roles
+          :roles="user.roles"
+        >
+        </editing-user-roles>
       </v-window-item>
       <v-window-item
         :key="3"
         :value="3"
       >
-        Третья вкладка
+      <editing-user-roles
+        :roles="user.task_roles"
+        :type="'tasks'"
+      >
+      </editing-user-roles>
       </v-window-item>
     </v-window>
 </template>
@@ -49,12 +56,14 @@
 import common from '@/services/common.js';
 import store from '@/store';
 import EditingUserCommon from '@/components/references/users/Common.vue'
+import EditingUserRoles from '@/components/references/users/Roles.vue'
 
 export default {
   name: 'EditingUser',
   props: ['id'],
   components: {
-    'editing-user-common': EditingUserCommon
+    'editing-user-common': EditingUserCommon,
+    'editing-user-roles':  EditingUserRoles
   },
   methods: {
     onChange(){
@@ -62,7 +71,7 @@ export default {
       else this.edited = true;
     },
     onSave(){
-      this.refUser = common.copyObject(this.user);
+      Object.assign(this.refUser,this.user);
       this.edited = false;
       store.dispatch({
         type: 'setUser',
@@ -70,7 +79,7 @@ export default {
       });
     },
     onCancel(){
-      this.user = common.copyObject(this.refUser);
+      Object.assign(this.user,this.refUser);
       this.edited = false;
     }
   },
@@ -80,11 +89,9 @@ export default {
     user: {},
     edited: false
   }),
-  mounted: async function(){
-    await new Promise((resolve) => resolve(common.copyObject(store.getters.getUsers.find(user => user.id == this.id))))
-      .then(result => this.refUser = result);
-    await new Promise((resolve) => resolve(common.copyObject(this.refUser)))
-      .then(result => this.user = result);
+  mounted: function(){
+    Object.assign(this.refUser,store.getters.getUsers.find(user => user.id == this.id));
+    Object.assign(this.user,this.refUser);
   }
 }
 </script>

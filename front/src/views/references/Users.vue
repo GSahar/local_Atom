@@ -25,7 +25,6 @@
     :headers="headers"
     :items="items"
     hide-actions
-    class="elevation-1"
     item-key="id"
   >
   <template v-slot:item.actions="{ item }">
@@ -111,7 +110,9 @@ export default {
     },
     addUser(){
       store.dispatch('addUser');
-      this.getUsers();
+      //TODO ищем id по другому
+      let id = store.getters.getUsers[store.getters.getUsers.length-1].id;
+      router.push({name: 'editingUser', params: {id: id}})
     },
     removeUser(id){
       store.dispatch('removeUser',id);

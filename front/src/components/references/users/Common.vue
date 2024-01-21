@@ -9,6 +9,7 @@
               name="lastName"
               label="Фамилия"
               variant="underlined"
+              color="primary"
               v-model="user.lastName"
               @update:modelValue="$emit('change')"
             ></v-text-field>
@@ -16,6 +17,7 @@
               name="firstName"
               label="Имя"
               variant="underlined"
+              color="primary"
               v-model="user.firstName"
               @update:modelValue="$emit('change')"
             ></v-text-field>
@@ -23,6 +25,7 @@
               name="secpndName"
               label="Отчество"
               variant="underlined"
+              color="primary"
               v-model="user.secondName"
               @update:modelValue="$emit('change')"
             ></v-text-field>
@@ -30,6 +33,7 @@
               name="place"
               label="Место работы"
               variant="underlined"
+              color="primary"
               v-model="user.place"
               @update:modelValue="$emit('change')"
             ></v-text-field>
@@ -37,6 +41,7 @@
               name="job"
               label="Должность"
               variant="underlined"
+              color="primary"
               v-model="user.job"
               @update:modelValue="$emit('change')"
             ></v-text-field>

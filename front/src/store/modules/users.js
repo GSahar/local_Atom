@@ -11,8 +11,22 @@ export default {
         place: 'Отдел технического анализа',
         job: 'Аналитик',
         photo: '',
-        roles: [],
-        task_roles: []
+        roles: [
+          {
+            id: 1,
+            name: 'basic'
+          },
+          {
+            id: 2,
+            name: 'analys'
+          }
+        ],
+        task_roles: [
+          {
+            id: 1,
+            name: 'Analytics - Main'
+          }
+        ]
       },
       {
         id: 2,
