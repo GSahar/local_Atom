@@ -1,15 +1,24 @@
 <template>
-<div class="w-25 mb-3 ms-1">
-  <v-text-field
-    name="search"
-    label="Поиск"
-    variant="underlined"
-    color="primary"
-    class="w-10"
-    prepend-icon="mdi-magnify"
-    v-model="searchValue"
-    @input="search"
-  ></v-text-field>
+<div class="w-100 mb-3 ms-1 d-flex justify-space-between">
+  <div style="width: 350px;">
+    <v-text-field
+      name="search"
+      label="Поиск"
+      variant="underlined"
+      color="primary"
+      width="5px"
+      prepend-icon="mdi-magnify"
+      v-model="searchValue"
+      @input="search"
+    ></v-text-field>
+  </div>
+  <v-btn
+    class="mr-3 mt-4"
+    color="success"
+    @click="addUser()"
+  >
+    Добавить
+  </v-btn>
 </div>
 
   <v-data-table
@@ -31,7 +40,7 @@
       <v-icon
         size="small"
         color="error"
-        @click="console.log('delete ' + item.name)"
+        @click="removeUser(item.id)"
       >
         mdi-delete
       </v-icon>
@@ -66,12 +75,7 @@ export default {
           key: 'job', },
         { title: '', align: 'end', key: 'actions', sortable: false }
       ],
-      items: store.getters.getUsers.map(user => {
-        return {
-          ...user,
-          name: user.lastName + ' ' + user.firstName + ' ' + user.secondName
-        }
-      }),
+      items: [],
       serverItems: [],
       loading: false,
       totalItems: 0,
@@ -84,7 +88,7 @@ export default {
   methods: {
     search(){
         this.items =
-            users?.filter(user => ((user.lastName + ' ' + user.firstName + ' ' + user.secondName).toUpperCase().indexOf(this.searchValue.toUpperCase()??'') > -1 ||
+            store.getters.getUsers?.filter(user => ((user.lastName + ' ' + user.firstName + ' ' + user.secondName).toUpperCase().indexOf(this.searchValue.toUpperCase()??'') > -1 ||
                                 user.place.toUpperCase().indexOf(this.searchValue.toUpperCase()??'') > -1 ||
                                 user.job.toUpperCase().indexOf(this.searchValue.toUpperCase()??'') > -1))
                   .map(user => {
@@ -94,12 +98,29 @@ export default {
                     };
                   })??[];
     },
+    getUsers(){
+      this.items = store.getters.getUsers.map(user => {
+        return {
+          ...user,
+          name: user.lastName + ' ' + user.firstName + ' ' + user.secondName
+        }
+      });
+    },
     editUser(item){
       router.push({name: 'editingUser', params: {id: item.id}})
+    },
+    addUser(){
+      store.dispatch('addUser');
+      this.getUsers();
+    },
+    removeUser(id){
+      store.dispatch('removeUser',id);
+      this.getUsers();
     }
   },
   mounted: function(){
     //console.log();
+    this.getUsers();
   }
 }
 </script>

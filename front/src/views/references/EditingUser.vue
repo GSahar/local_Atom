@@ -136,6 +136,10 @@ export default {
     onSave(){
       this.refUser = common.copyObject(this.user);
       this.edited = false;
+      store.dispatch({
+        type: 'setUser',
+        editedUser: this.user
+      });
     },
     onCancel(){
       this.user = common.copyObject(this.refUser);
@@ -161,13 +165,10 @@ export default {
     edited: false
   }),
   mounted: async function(){
-   await new Promise((resolve) => resolve(common.copyObject(store.getters.getUsers.find(user => user.id == this.id))))
-      .then(result => {
-        console.log('After then',result);
-        this.refUser = result
-      });
-   await new Promise((resolve,reject) => resolve(common.copyObject(this.refUser)))
-    .then(result => this.user = result);
+    await new Promise((resolve) => resolve(common.copyObject(store.getters.getUsers.find(user => user.id == this.id))))
+      .then(result => this.refUser = result);
+    await new Promise((resolve) => resolve(common.copyObject(this.refUser)))
+      .then(result => this.user = result);
   }
 }
 </script>
