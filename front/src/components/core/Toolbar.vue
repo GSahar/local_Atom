@@ -2,7 +2,7 @@
   <div>
     <v-app-bar
       app
-      style="background-color: #2196F3;"
+      color="primary"
       theme="light"
     >
       <v-app-bar-nav-icon
@@ -12,7 +12,7 @@
 
       <v-spacer></v-spacer>
     <router-link to="/login">
-      <v-btn >
+      <v-btn color="white">
       <v-icon>mdi-export</v-icon>
         Выйти
       </v-btn>

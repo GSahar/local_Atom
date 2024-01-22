@@ -16,7 +16,6 @@
     :headers="headers"
     :items="items"
     hide-actions
-    class="elevation-1"
     item-key="id"
   >
   <template v-slot:item.actions="{ item }">
