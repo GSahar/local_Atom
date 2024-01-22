@@ -16,6 +16,12 @@ export default [
     component: () => import('@/views/references/Roles.vue'),
   },
   {
+    path: 'roles/:id',
+    name: 'editingRole',
+    component: () => import('@/views/references/EditingRole.vue'),
+    props: true
+  },
+  {
     path: 'tasks',
     name: 'tasks',
     component: () => import('@/views/references/Tasks.vue'),

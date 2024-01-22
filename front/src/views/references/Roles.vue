@@ -23,7 +23,7 @@
           size="small"
           class="me-2"
           color="primary"
-          @click="console.log('edit ' + item.name)"
+          @click="editRole(item.id)"
         >
           mdi-pencil
         </v-icon>
@@ -38,14 +38,8 @@
     </v-data-table>
   </template>
   <script>
-   const roles = [
-      {
-        name: 'Общая'
-      },
-      {
-        name: 'Бухгалтер'
-      }
-    ]
+import router from '@/router';
+import store from '@/store';
 
   export default {
     data: () => ({
@@ -62,13 +56,16 @@
         serverItems: [],
         loading: false,
         totalItems: 0,
-        items: roles,
+        items: store.getters.getRoles,
         total:5,
         searchValue: ''
       }),
     methods: {
       search(){
           this.items = roles?.filter(user =>  (user.name.toUpperCase().indexOf(this.searchValue.toUpperCase()??'') > -1))??[];
+      },
+      editRole(id){
+        router.push({name: 'editingRole', params: {id: id}})
       }
     }
   }
