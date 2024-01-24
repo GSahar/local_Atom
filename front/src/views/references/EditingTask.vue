@@ -38,7 +38,7 @@
   </div>
   <div class="mt-3">
     <editing-role-tasks
-      :task_roles="task.roles"
+      :task_roles="roles"
     ></editing-role-tasks>
   </div>
 
@@ -54,11 +54,13 @@ export default {
   data: () => ({
     refTask: {},
     task: {},
-    edited: false
+    edited: false,
+    roles: []
   }),
   mounted: function(){
     Object.assign(this.refTask,store.getters.getTasks.find(task => task.id == this.id));
     Object.assign(this.task,this.refTask);
+    this.roles = store.getters.getTaskRoles(this.task.id);
   },
   methods: {
     onChange(){
