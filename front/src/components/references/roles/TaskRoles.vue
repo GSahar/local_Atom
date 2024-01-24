@@ -1,28 +1,20 @@
 <template>
-  <div class="w-100 mb-3 ms-1 d-flex justify-space-between">
-  <div style="width: 350px;">
-    <v-text-field
-      name="search"
-      label="Поиск"
-      variant="underlined"
-      color="primary"
-      width="5px"
-      prepend-icon="mdi-magnify"
-      v-model="searchValue"
-      @input="search"
-    ></v-text-field>
-  </div>
-  <v-btn
-    class="mr-3 mt-4"
-    color="success"
+  <v-card
   >
-    Добавить
-  </v-btn>
-</div>
-
+  <div class="d-flex flex-row justify-space-between">
+    <v-card-title primary-title>
+      Роли ИС
+    </v-card-title>
+    <v-btn
+      color="primary"
+      class="mt-5 mr-3"
+    >
+      Добавить
+    </v-btn>
+  </div>
   <v-data-table
     :headers="headers"
-    :items="roles"
+    :items="task_roles"
     hide-actions
     item-key="id"
   >
@@ -43,17 +35,15 @@
       </v-icon>
     </template>
   </v-data-table>
+  </v-card>
 </template>
 <script>
 export default {
-  name: 'EditingUserRoles',
-  props: [
-    'roles',
-    'type'
-  ],
+  name: 'EditingRoleTasks',
+  props: ['task_roles'],
   data: () => ({
     headers: [
-      {
+    {
         title: 'Наименование роли',
         align: 'start',
         sortable: true,
@@ -61,12 +51,8 @@ export default {
       },
       { title: '', align: 'end', key: 'actions', sortable: false }
     ],
-    searchValue: ''
   }),
-  methods: {
-    search(){
-
-    }
+  mounted: function(){
   }
 }
 </script>
