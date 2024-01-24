@@ -1,22 +1,34 @@
 <template>
-  <div class="w-25 mb-3 ms-1">
-    <v-text-field
-      name="search"
-      label="Поиск"
-      variant="underlined"
-      color="primary"
-      class="w-10"
-      prepend-icon="mdi-magnify"
-      v-model="searchValue"
-      @input="search"
-    ></v-text-field>
+  <div
+    class="d-flex
+           flex-row
+           justify-space-between
+           w-100"
+  >
+    <div class="w-25 mb-3 ms-1">
+      <v-text-field
+        name="search"
+        label="Поиск"
+        variant="underlined"
+        color="primary"
+        class="w-10"
+        prepend-icon="mdi-magnify"
+        v-model="searchValue"
+        @input="search"
+      ></v-text-field>
+    </div>
+    <v-btn
+        color="primary"
+        class="mt-5 me-3"
+        @click="addRole()"
+      >
+        Добавить
+      </v-btn>
   </div>
-
     <v-data-table
       :headers="headers"
       :items="items"
       hide-actions
-      class="elevation-1"
       item-key="id"
     >
     <template v-slot:item.actions="{ item }">
@@ -24,14 +36,14 @@
           size="small"
           class="me-2"
           color="primary"
-          @click="console.log('edit ' + item.name)"
+          @click="editRole(item.id)"
         >
           mdi-pencil
         </v-icon>
         <v-icon
           size="small"
           color="error"
-          @click="console.log('delete ' + item.name)"
+          @click="removeRole(item.id)"
         >
           mdi-delete
         </v-icon>
@@ -39,14 +51,8 @@
     </v-data-table>
   </template>
   <script>
-   const roles = [
-      {
-        name: 'Общая'
-      },
-      {
-        name: 'Бухгалтер'
-      }
-    ]
+import router from '@/router';
+import store from '@/store';
 
   export default {
     data: () => ({
@@ -63,14 +69,30 @@
         serverItems: [],
         loading: false,
         totalItems: 0,
-        items: roles,
+        items: store.getters.getRoles,
         total:5,
         searchValue: ''
       }),
     methods: {
       search(){
           this.items = roles?.filter(user =>  (user.name.toUpperCase().indexOf(this.searchValue.toUpperCase()??'') > -1))??[];
-      }
+      },
+      editRole(id){
+        router.push({name: 'editingRole', params: {id: id}})
+      },
+      addRole(){
+        store.dispatch('addRole');
+        //TODO ищем id по другому
+        let id = store.getters.getRoles[store.getters.getRoles.length-1].id;
+        router.push({name: 'editingRole', params: {id: id}})
+      },
+      removeRole(id){
+        store.dispatch('removeRole',id);
+        this.getRoles();
+      },
+      getRoles(){
+      this.items = store.getters.getRoles;
+      },
     }
   }
   </script>
