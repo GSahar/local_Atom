@@ -1,7 +1,17 @@
 <template>
   <v-card
-    title="Роли ИС"
   >
+  <div class="d-flex flex-row justify-space-between">
+    <v-card-title primary-title>
+      Роли ИС
+    </v-card-title>
+    <v-btn
+      color="primary"
+      class="mt-5 mr-3"
+    >
+      Добавить
+    </v-btn>
+  </div>
   <v-data-table
     :headers="headers"
     :items="task_roles"

@@ -26,5 +26,10 @@ export default [
     name: 'tasks',
     component: () => import('@/views/references/Tasks.vue'),
   },
-
+  {
+    path: 'tasks/:id',
+    name: 'editingTask',
+    component: () => import('@/views/references/EditingTask.vue'),
+    props: true
+  },
 ]

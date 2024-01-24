@@ -47,10 +47,16 @@ export default {
         name: ''
       })
     },
-    removeUser(state, payload){
-      state.roles = state.roles.filter(user => {
-        return user.id !== payload.id;
+    removeRole(state, payload){
+      state.roles = state.roles.filter(role => {
+        return role.id !== payload.id;
       });
+    },
+    addTaskRoleToRole(state, payload){
+      state
+        .roles[payload.newTaskRole.role_id]
+        .task_roles
+        .push(state.task_roles[payload.newTaskRole.task_role_id]);
     }
   },
   actions: {
@@ -67,6 +73,9 @@ export default {
       commit('removeRole',{
         id: id
       });
+    },
+    addTaskRoleToRole({commit}, newTaskRole){
+      commit('addTaskRoleToRole', newTaskRole);
     }
   },
 
