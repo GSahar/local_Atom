@@ -1,5 +1,6 @@
 <template>
-  <div class="d-flex">
+  <div class="d-flex flex-column h-100">
+    <div class="d-flex">
     <v-btn
         :to="{name: 'tasks'}"
         class="mb-3"
@@ -36,17 +37,29 @@
       </v-btn>
     </div>
   </div>
-  <div class="mt-3">
+  <div class="mt-3 h-100 d-flex flex-row">
     <editing-role-tasks
       :task_roles="roles"
+      @addTaskRole="addTaskRole"
+      @deleteTaskRole="deleteTaskRole"
+      @setSelected="setSelected"
+      class="me-2 w-100"
     ></editing-role-tasks>
+    <editing-role-tasks-card
+      :width="isExpanded ? '50%' : '0'"
+      v-if="selected!=0"
+      :id="selected"
+    ></editing-role-tasks-card>
   </div>
+  </div>
+
 
 </template>
 <script>
 import common from '@/services/common';
 import store from '@/store';
 import  EditingRoleTasks from '@/components/references/roles/TaskRoles.vue'
+import  EditingRoleTasksCard from '@/components/references/roles/EditCard.vue'
 
 export default {
   name: 'EditingTask',
@@ -55,7 +68,9 @@ export default {
     refTask: {},
     task: {},
     edited: false,
-    roles: []
+    roles: [],
+    selected: 0,
+    isExpanded: false
   }),
   mounted: function(){
     Object.assign(this.refTask,store.getters.getTasks.find(task => task.id == this.id));
@@ -73,10 +88,25 @@ export default {
         type: 'setTask',
         editedTask: this.task
       });
+    },
+    addTaskRole(){
+      store.dispatch('addTaskRole',{task_id: this.id});
+      this.roles = store.getters.getTaskRoles(this.task.id);
+    },
+    deleteTaskRole(id){
+      this.selected = 0;
+      this.isExpanded = false;
+      store.dispatch('removeTaskRole',id);
+      this.roles = store.getters.getTaskRoles(this.task.id);
+    },
+    setSelected(id){
+      this.isExpanded = true;
+      this.selected = id;
     }
   },
   components: {
-    'editing-role-tasks': EditingRoleTasks
+    'editing-role-tasks': EditingRoleTasks,
+    'editing-role-tasks-card': EditingRoleTasksCard
   }
 }
 </script>

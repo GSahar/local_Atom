@@ -41,7 +41,7 @@ export default {
     },
     addRole(state){
       //TODO Временно генерим id -> потом будем генерить в базе
-      let id = state.roles[state.roles.length-1].id + 1
+      let id = state.roles.length > 0 ? state.roles[state.roles.length-1].id + 1 : 1;
       state.roles.push({
         id: id,
         name: ''

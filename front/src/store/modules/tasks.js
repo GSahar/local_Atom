@@ -29,7 +29,7 @@ export default {
     },
     addTask(state){
       //TODO Временно генерим id -> потом будем генерить в базе
-      let id = state.tasks[state.tasks.length-1].id + 1
+      let id = state.tasks.length > 0 ? state.tasks[state.tasks.length-1].id + 1 : 1;
       state.tasks.push({
         id: id,
         name: '',

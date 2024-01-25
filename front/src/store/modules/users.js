@@ -67,7 +67,7 @@ export default {
     },
     addUser(state){
       //TODO Временно генерим id -> потом будем генерить в базе
-      let id = state.users[state.users.length-1].id + 1
+      let id = state.users.length > 0 ? state.users[state.users.length-1].id + 1 : 1;
       state.users.push({
         id: id,
         lastName: '',
