@@ -21,9 +21,10 @@ export default {
   mutations: {
     setTaskRole(state,payload){
       state.task_roles = state.task_roles.map(task_role => {
-        console.log(payload);
-        if(task_role.id === payload.editedTaskRole.id)
-          return common.copyObject(payload.editedTaskRole);
+        if(task_role.id === payload.id)
+        {
+          return common.copyObject(payload);
+        }
         return task_role;
       });
     },

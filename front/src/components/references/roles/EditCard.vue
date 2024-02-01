@@ -11,18 +11,21 @@
           variant="underlined"
           v-model="role.name"
           style="width: 95%;"
+          @update:modelValue="() => {onChange();}"
         ></v-text-field>
       </div>
       <v-card-actions class="mb-5">
         <div class="d-flex flex-row justify-space-between w-100">
           <v-btn
             color="success"
+            @click="onSave()"
           >
             Сохранить
           </v-btn>
           <v-btn
             class="me-5 mb-3"
             color="error"
+            @click="onCancel()"
           >
             Отмена
           </v-btn>
@@ -33,19 +36,46 @@
   </v-card>
 </template>
 <script>
+import common from '@/services/common';
 import store from '@/store';
 
 export default {
   name: 'EditingRoleTaskCard',
+  emits: ['roleUpdated'],
   props: ['id'],
   data: () => ({
-    role: {
-      id: 0,
+    refRole: {
+      id: '',
       name: ''
-    }
+    },
+    editedRole: {
+      id: '',
+      name: ''
+    },
+    edited: false
   }),
   mounted: function(){
-    this.role = store.getters.getTaskRole(this.id)
+
+  },
+  computed:{
+    role: function(){
+      let result = {};
+      Object.assign(result,store.getters.getTaskRole(this.id))
+      return result;
+    }
+  },
+  methods: {
+    onSave(){
+      Object.assign(this.refRole,this.role);
+      store.dispatch('setTaskRole',this.role);
+      this.$emit('roleUpdated');
+    },
+    onCancel(){
+      Object.assign(this.role,this.refRole)
+    },
+    onChange(){
+      this.edited = !common.compareObjects(this.refRole,this.role);
+    }
   }
 }
 </script>

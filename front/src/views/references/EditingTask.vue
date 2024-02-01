@@ -45,10 +45,12 @@
       @setSelected="setSelected"
       class="me-2 w-100"
     ></editing-role-tasks>
+
     <editing-role-tasks-card
       :width="isExpanded ? '50%' : '0'"
       v-if="selected!=0"
       :id="selected"
+      @roleUpdated="onRoleUpdated()"
     ></editing-role-tasks-card>
   </div>
   </div>
@@ -89,6 +91,10 @@ export default {
         editedTask: this.task
       });
     },
+    onCancel(){
+      Object.assign(this.task,this.refTask);
+      this.edited = false;
+    },
     addTaskRole(){
       store.dispatch('addTaskRole',{task_id: this.id});
       this.roles = store.getters.getTaskRoles(this.task.id);
@@ -102,6 +108,10 @@ export default {
     setSelected(id){
       this.isExpanded = true;
       this.selected = id;
+    },
+    onRoleUpdated(){
+      console.log(123);
+      this.roles = store.getters.getTaskRoles(this.task.id);
     }
   },
   components: {
@@ -110,6 +120,8 @@ export default {
   }
 }
 </script>
-<style lang="">
-
+<style lang="scss">
+editing-role-tasks-card{
+  transition: 1s;
+}
 </style>
