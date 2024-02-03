@@ -3,7 +3,6 @@
 </template>
 
 <style lang="scss" >
-	//@import "@/styles/index.scss";
   a{
     text-decoration: none;
     color: black;

@@ -27,7 +27,7 @@
 </script>
 
 <style lang="scss">
-//@import "@/styles/index.scss";
+@import "@/styles/index.scss";
 .main-container{
   margin: .5rem;
   padding: 0.5rem;

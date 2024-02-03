@@ -19,6 +19,7 @@
           <v-btn
             color="success"
             @click="onSave()"
+            variant="plain"
           >
             Сохранить
           </v-btn>
@@ -26,6 +27,7 @@
             class="me-5 mb-3"
             color="error"
             @click="onCancel()"
+            variant="plain"
           >
             Отмена
           </v-btn>

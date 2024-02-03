@@ -1,59 +1,60 @@
 <template>
-  <div class="d-flex flex-column h-100">
-    <div class="d-flex">
-    <v-btn
-        :to="{name: 'tasks'}"
-        class="mb-3"
-      >
-        Назад
-      </v-btn>
-    <h2 class="ms-3">Редактирование ИС</h2>
-  </div>
-  <div class="d-flex flex-direction-row justify-space-between">
-    <div class="w-25">
-      <v-text-field
-        name="name"
-        label="Наименование"
-        variant="underlined"
-        v-model="task.name"
-        @update:modelValue="onChange()"
-      ></v-text-field>
-    </div>
-    <div class="mr-3 mt-5">
+  <v-layout class="d-flex flex-column h-100">
+    <header class="d-flex">
       <v-btn
-        color="success"
-        class="mr-2"
-        :disabled="!edited"
-        @click="onSave()"
-      >
-        Сохранить
-      </v-btn>
-      <v-btn
-        color="error"
-        :disabled="!edited"
-        @click="onCancel()"
-      >
-        Отмена
-      </v-btn>
-    </div>
-  </div>
-  <div class="mt-3 h-100 d-flex flex-row">
-    <editing-role-tasks
-      :task_roles="roles"
-      @addTaskRole="addTaskRole"
-      @deleteTaskRole="deleteTaskRole"
-      @setSelected="setSelected"
-      class="me-2 w-100"
-    ></editing-role-tasks>
+          :to="{name: 'tasks'}"
+          class="mb-3"
+        >
+          Назад
+        </v-btn>
+      <h2 class="ms-3">Редактирование ИС</h2>
+    </header>
+    <section class="d-flex flex-direction-row justify-space-between">
+      <div class="w-25">
+        <v-text-field
+          name="name"
+          label="Наименование"
+          variant="underlined"
+          v-model="task.name"
+          @update:modelValue="onChange()"
+        ></v-text-field>
+      </div>
+      <div class="mr-3 mt-5">
+        <v-btn
+          color="success"
+          class="mr-2"
+          :disabled="!edited"
+          @click="onSave()"
+        >
+          Сохранить
+        </v-btn>
+        <v-btn
+          color="error"
+          :disabled="!edited"
+          @click="onCancel()"
+        >
+          Отмена
+        </v-btn>
+      </div>
+      </section>
+    <section class="mt-3 px-1 py-1 d-flex flex-row overflow-auto h-100">
+      <editing-role-tasks
+        :task_roles="roles"
+        @addTaskRole="addTaskRole"
+        @deleteTaskRole="deleteTaskRole"
+        @setSelected="setSelected"
+        class="w-100"
+      ></editing-role-tasks>
 
-    <editing-role-tasks-card
-      :width="isExpanded ? '50%' : '0'"
-      v-if="selected!=0"
-      :id="selected"
-      @roleUpdated="onRoleUpdated()"
-    ></editing-role-tasks-card>
-  </div>
-  </div>
+      <editing-role-tasks-card
+        class="ms-2"
+        :width="isExpanded ? '50%' : '0'"
+        v-if="selected!=0"
+        :id="selected"
+        @roleUpdated="onRoleUpdated()"
+      ></editing-role-tasks-card>
+    </section>
+  </v-layout>
 
 
 </template>
@@ -110,7 +111,6 @@ export default {
       this.selected = id;
     },
     onRoleUpdated(){
-      console.log(123);
       this.roles = store.getters.getTaskRoles(this.task.id);
     }
   },

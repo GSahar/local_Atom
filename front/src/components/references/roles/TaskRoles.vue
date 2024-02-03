@@ -12,48 +12,61 @@
       Добавить
     </v-btn>
   </div>
-  <div>
+  <div style="height: 90%;">
     <v-data-table
-    :headers="headers"
-    :items="task_roles"
-    hide-actions
-    item-key="id"
-    style="height: 100%"
-  >
-  <template v-slot:item="{ item }">
-    <tr
-      :class="selected == item.id ? 'selected-row' : ''"
-      @click="setSelected(item.id)"
-      style="cursor: pointer;"
+      :headers="headers"
+      :items="task_roles"
+      items-per-page="9"
+      :height="'50%'"
+      v-model:page="page"
+      sticky
+      hide-actions
+      item-key="id"
+      style="height: 100%"
     >
-      <td>
-        {{ item.name }}
-      </td>
-      <td style="width: 50px;">
-        <v-icon
-        size="small"
-        color="error"
-        @click="deleteTaskRole(item.id, $event)"
+    <template v-slot:item="{ item }">
+      <tr
+        :class="selected == item.id ? 'selected-row' : ''"
+        @click="setSelected(item.id)"
+        style="cursor: pointer;"
       >
-        mdi-delete
-      </v-icon>
-      </td>
-    </tr>
+        <td>
+          {{ item.name }}
+        </td>
+        <td style="width: 50px;">
+          <v-icon
+          size="small"
+          color="error"
+          @click="deleteTaskRole(item.id, $event)"
+        >
+          mdi-delete
+        </v-icon>
+        </td>
+      </tr>
 
-  </template>
-
-  </v-data-table>
+    </template>
+    <template v-slot:bottom>
+            <div class="text-center pt-2">
+              <v-pagination
+                v-model="page"
+                :length="pageCount"
+              ></v-pagination>
+            </div>
+          </template>
+    </v-data-table>
   </div>
   </v-card>
 </template>
 <script >
+import store from '@/store';
+
 export default {
   name: 'EditingRoleTasks',
   props: ['task_roles'],
   emits: ['setSelected','deleteTaskRole','addTaskRole'],
   data: () => ({
     headers: [
-    {
+      {
         title: 'Наименование роли',
         align: 'start',
         sortable: true,
@@ -61,9 +74,11 @@ export default {
       },
       { title: '', align: 'end', key: 'actions', sortable: false }
     ],
-    selected: 0
+    selected: 0,
+    page:1
   }),
   mounted: function(){
+    this.getData();
   },
   methods: {
     setSelected(id){
@@ -74,6 +89,14 @@ export default {
       $event.stopPropagation();
       this.selected = 0;
       this.$emit('deleteTaskRole',id);
+    },
+    getData(){
+
+    }
+  },
+  computed:{
+    pageCount: function(){
+      return this.task_roles ? Math.ceil(this.task_roles.length / 9) : 1;
     }
   }
 }
