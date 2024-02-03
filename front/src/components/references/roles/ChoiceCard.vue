@@ -70,6 +70,7 @@
         <v-btn
           color="error"
           variant="plain"
+          @click="$emit('onCancel')"
         >
           Отмена
         </v-btn>
@@ -80,32 +81,9 @@
 <script>
 import store from '@/store';
 
-const tabItems = [
-  {
-    task: '1С',
-    name: 'Main'
-  },
-  {
-    task: 'Личный кабинет',
-    name: 'Main'
-  },
-  {
-    task: 'Личный кабинет',
-    name: 'User'
-  },
-  {
-    task: 'Личный кабинет',
-    name: 'Admin'
-  }
-];
-const tasks = [
-  '1С',
-  'Личный кабинет'
-]
-
 export default {
   name: 'EditingRoleChoiceCard',
-  emits:['onSave'],
+  emits:['onSave','onCancel'],
   data: () => ({
     headers: [
         {
@@ -123,8 +101,6 @@ export default {
 
     ],
     page: 1,
-    tasks: tasks,
-    //refItems: tabItems,
     filterTask: '',
     filterName: '',
     selected: null,
@@ -139,6 +115,9 @@ export default {
     },
     pageCount: function(){
       return this.items ? Math.ceil(this.items.length / 5) : 1;
+    },
+    tasks: function(){
+      return this.getTasks();
     }
   },
   methods: {
@@ -164,6 +143,9 @@ export default {
     onSave(){
       if(this.selected)
         this.$emit('onSave',this.selected[0])
+    },
+    getTasks(){
+      return this.items ? Array.from(new Set(this.items.map(item => item.task))) : []
     }
   },
   mounted: () => {

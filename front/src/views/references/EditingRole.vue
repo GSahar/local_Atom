@@ -38,18 +38,20 @@
       </div>
     </section>
     <section
-      class="mt-3 mx-1 py-1 px-1 d-flex flex-row"
+      class="mt-3 w-100 py-1 px-1 d-flex flex-row"
       style="height: 85%;"
     >
       <editing-role-tasks
         :task_roles="task_roles"
         class="w-100"
         @deleteTaskRole="removeTaskRole"
+        @addTaskRole="addTaskRole"
       ></editing-role-tasks>
       <editing-role-choice-card
         class="ms-2 "
         :width="isExpanded ? '50%' : '0'"
         @onSave="chooseTaskRole"
+        @onCancel="onCancel"
       ></editing-role-choice-card>
     </section>
   </v-layout>
@@ -67,12 +69,11 @@ export default {
     refRole: {},
     role: {},
     edited: false,
-    isExpanded: true,
+    isExpanded: false,
     refreshKey: 1
   }),
   mounted: function(){
-    Object.assign(this.refRole,store.getters.getRoles.find(role => role.id == this.id));
-    Object.assign(this.role,this.refRole);
+    this.getData();
   },
   methods: {
     onChange(){
@@ -91,6 +92,15 @@ export default {
     },
     removeTaskRole(taskRoleId){
       store.dispatch('removeTaskRoleFromRole',{role_id: this.id,task_role_id: taskRoleId});
+      this.getData();
+    },
+    addTaskRole(){
+      this.isExpanded = true;
+    },
+    onCancel(){
+      this.isExpanded = false;
+    },
+    getData(){
       Object.assign(this.refRole,store.getters.getRoles.find(role => role.id == this.id));
       Object.assign(this.role,this.refRole);
     }
