@@ -128,7 +128,7 @@ export default {
     onAdd(){
       Object.assign(this.refUser,this.user);
       this.edited = false;
-      store.dispatch('addUser',this.user);
+      store.dispatch('addNewUser',this.user);
       //TODO ищем id по другому
       let id = store.getters.getUsers[store.getters.getUsers.length-1].id;
       router.push({name: 'editingUser', params: {id: id}})

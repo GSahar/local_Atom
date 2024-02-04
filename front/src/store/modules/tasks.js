@@ -1,17 +1,9 @@
-import common from "@/services/common"
+import common from "@/services/common";
+import DB from '@/store/db/db';
 
 export default {
   state: {
-    tasks: [
-      {
-        id: 1,
-        name: '1С Бухгалтерия'
-      },
-      {
-        id: 2,
-        name: 'Личный кабинет'
-      }
-    ]
+    tasks: []
   },
   getters: {
     getTasks(state){
@@ -29,12 +21,10 @@ export default {
         return task;
       });
     },
-    addTask(state){
-      //TODO Временно генерим id -> потом будем генерить в базе
-      let id = state.tasks.length > 0 ? state.tasks[state.tasks.length-1].id + 1 : 1;
+    addTask(state,payload){
       state.tasks.push({
-        id: id,
-        name: '',
+        id: payload.id,
+        name: payload.name??'',
         roles: []
       })
     },
@@ -55,9 +45,9 @@ export default {
       //TODO изменение в базе
       commit('setTask', editedTask);
     },
-    addTask({commit}){
+    addTask({commit},data){
       //TODO вставка пользователя в базу
-      commit('addTask');
+      commit('addTask',data);
     },
     removeTask({commit},id){
       //TODO удаление из базы
@@ -67,6 +57,30 @@ export default {
     },
     addRoleToTask({commit}, newTaskRole){
       commit('addRoleToTask', newTaskRole);
+    },
+    async getTasksFromDB({commit}){
+      let tasks = await DB.getTasks();
+      for(let task of tasks.data){
+        //let photoURL = URL.createObjectURL(user.photo);
+        //TODO photo
+        commit('addTask',{
+          id: task.id,
+          name: task.title,
+          description: task.description,
+          roles: []
+        })
+      }
+    },
+    async addNewTask({commit}, newTask){
+      let task = await DB.storeTask({
+        ...newTask
+      });
+      commit('addTask',{
+        id: task.id,
+        name: task.title,
+        description: task.description,
+        task_roles: []
+      })
     }
   },
 

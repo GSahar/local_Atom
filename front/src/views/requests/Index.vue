@@ -9,49 +9,46 @@
 </template>
 <script>
 import RequestCard from '@/components/request/Card.vue';
+import store from '@/store';
+
 export default {
   components:{
     'request-card': RequestCard
   },
-  data() {
-   return {
-    cards: [
-      {
-        number: '1',
-        author: 'Иванов И.И.',
-        task: 'Личный кабинет',
-        state: 'Согласовано руководителем',
-        comment: ''
-      },
-      {
-        number: '2',
-        author: 'Иванов И.И.',
-        task: 'Личный кабинет',
-        state: 'Согласовано руководителем',
-        comment: ''
-      },
-      {
-        number: '3',
-        author: 'Иванов И.И.',
-        task: 'Личный кабинет',
-        state: 'Согласовано руководителем',
-        comment: ''
-      },
-      {
-        number: '4',
-        author: 'Петров П.П,',
-        task: 'Личный кабинет',
-        state: 'Заявка отклонена',
-        comment: 'Заявка отклонена по причине недостаточного основания на предоставление доступа'
-      },
-      {
-        number: '5',
-        author: 'Иванов И.И.',
-        task: 'Личный кабинет',
-        state: 'Согласовано руководителем',
-        comment: ''
+  data: () => ({
+
+  }),
+  computed:{
+    cards: function(){
+      let requests = store.getters.getRequests;
+      return requests.map(request => {
+        let user = store.getters.getUser(request.user_id);
+        console.log(request);
+        let task = store.getters.getTask(request.task_id);
+        let state = '';
+        switch(request.status){
+          case 'pending':
+              state = 'На согласовании';
+              break;
+          case 'approved':
+              state = 'Согласовано';
+              break;
+          case 'rejected':
+              state = 'Отклонено';
+              break;
+        }
+        return {
+          id: request.id,
+          user_id: request.user_id,
+          user: user ? user.lastName + ' ' + user.firstName.substring(0,1) + '.' + user.secondName.substring(0,1) : '',
+          task_id: request.task_id,
+          task: task?.name??'',
+          state: state
+        }
       }
-    ]}
+
+      );
+    }
   }
 }
 </script>

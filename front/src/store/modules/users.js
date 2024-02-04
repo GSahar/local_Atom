@@ -1,46 +1,16 @@
-import common from "@/services/common"
+import common from "@/services/common";
+import DB from '@/store/db/db';
 
 export default {
   state: {
-    users: [
-      {
-        id: 1,
-        lastName: 'Иванов',
-        firstName: 'Иван',
-        secondName: 'Иванович',
-        place: 'Отдел технического анализа',
-        job: 'Аналитик',
-        photo: '',
-        roles: [],
-        task_roles: []
-      },
-      {
-        id: 2,
-        lastName: 'Афонина',
-        firstName: 'Антонина',
-        secondName: 'Семеновна',
-        place: 'Бухгалтерия',
-        job: 'Бухгалтер',
-        photo: '',
-        roles: [],
-        task_roles: []
-      },
-      {
-        id: 3,
-        lastName: 'Петрова',
-        firstName: 'Ольга',
-        secondName: 'Ивановна',
-        place: 'Отдел технического контроля',
-        job: 'Контроллер',
-        photo: '',
-        roles: [],
-        task_roles: []
-      }
-    ]
+    users: []
   },
   getters: {
     getUsers(state){
       return state.users
+    },
+    getUser: (state) => (userId) => {
+      return state.users.find(user => user.id == userId);
     }
   },
   mutations: {
@@ -156,6 +126,44 @@ export default {
     },
     removeTaskRoleFromUser({commit}, taskRole){
       commit('removeTaskRoleFromUser', taskRole)
+    },
+    async getUsersFromDB({commit}){
+      let users = await DB.getUsers();
+      for(let user of users.data){
+        //let photoURL = URL.createObjectURL(user.photo);
+        //TODO photo
+        commit('addUser',{
+          id: user.id,
+          lastName: user.lastName??'Не указана',
+          firstName: user.name??'Не указано',
+          secondName: user.secondName??'Не указано',
+          place: user.place??'Не указано',
+          job: user.job??'Не указано',
+          photo: null,
+          email: user.email??'Не указан',
+          password: '',
+          roles: [],
+          task_roles: []
+        })
+      }
+    },
+    async addNewUser({commit}, newUser){
+      let user = await DB.storeUser({
+        ...newUser
+      });
+      commit('addUser',{
+        id: user.id,
+        lastName: user.lastName??'Не указана',
+        firstName: user.name??'Не указано',
+        secondName: user.secondName??'Не указано',
+        place: user.place??'Не указано',
+        job: user.job??'Не указано',
+        photo: null,
+        email: user.email??'Не указан',
+        password: '',
+        roles: [],
+        task_roles: []
+      });
     }
   },
 

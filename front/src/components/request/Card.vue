@@ -3,7 +3,7 @@
     <v-card-item >
         <v-card-title>Заявка {{ card.number }}</v-card-title>
           <div class="my-3 request-body" style="height: 125px;">
-            <p><strong>Инициатор заявки:</strong>  {{ card.author }}</p>
+            <p><strong>Инициатор заявки:</strong>  {{ card.user }}</p>
             <p><strong>Приложение:</strong>  {{ card.task }}</p>
             <p><strong>Стадия согласования:</strong>  {{ card.state }}</p>
             <p><strong>Комментарий:</strong>  {{ card.comment }}</p>

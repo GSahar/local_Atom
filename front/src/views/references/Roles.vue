@@ -30,6 +30,7 @@
       :items="items"
       hide-actions
       item-key="id"
+      :loading="!isLoaded"
     >
     <template v-slot:item.actions="{ item }">
         <v-icon
@@ -67,9 +68,8 @@ import store from '@/store';
           { title: '', align: 'end', key: 'actions', sortable: false }
         ],
         serverItems: [],
-        loading: false,
+        isLoaded: false,
         totalItems: 0,
-        items: store.getters.getRoles,
         total:5,
         searchValue: ''
       }),
@@ -81,7 +81,7 @@ import store from '@/store';
         router.push({name: 'editingRole', params: {id: id}})
       },
       addRole(){
-        store.dispatch('addRole');
+        store.dispatch('addNewRole');
         //TODO ищем id по другому
         let id = store.getters.getRoles[store.getters.getRoles.length-1].id;
         router.push({name: 'editingRole', params: {id: id}})
@@ -90,9 +90,13 @@ import store from '@/store';
         store.dispatch('removeRole',id);
         this.getRoles();
       },
-      getRoles(){
-      this.items = store.getters.getRoles;
-      },
+    },
+    computed: {
+      items: function(){
+        let items = store.getters.getRoles;
+        if(items && items.length > 0 ) this.isLoaded = true;
+        return items;
+      }
     }
   }
   </script>
