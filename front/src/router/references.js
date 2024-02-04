@@ -5,6 +5,12 @@ export default [
     component: () => import('@/views/references/Users.vue'),
   },
   {
+    path: 'users/new',
+    name: 'createUser',
+    component: () => import('@/views/references/EditingUser.vue'),
+    props: true
+  },
+  {
     path: 'users/:id',
     name: 'editingUser',
     component: () => import('@/views/references/EditingUser.vue'),

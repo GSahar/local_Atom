@@ -109,10 +109,10 @@ export default {
       router.push({name: 'editingUser', params: {id: item.id}})
     },
     addUser(){
-      store.dispatch('addUser');
+      //store.dispatch('addUser');
       //TODO ищем id по другому
       let id = store.getters.getUsers[store.getters.getUsers.length-1].id;
-      router.push({name: 'editingUser', params: {id: id}})
+      router.push({name: 'createUser'})
     },
     removeUser(id){
       store.dispatch('removeUser',id);

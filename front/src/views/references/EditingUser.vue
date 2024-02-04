@@ -6,7 +6,7 @@
     >
       Назад
     </v-btn>
-    <h2 class="ms-3">Редактирование пользователя</h2>
+    <h2 class="ms-3">{{!isExist ? 'Создание пользователя' : 'Редактирование пользователя'}}</h2>
   </div>
   <v-tabs
       v-model="tab"
@@ -15,8 +15,8 @@
       @update:modelValue="isExpanded = false"
     >
       <v-tab :value="1">Общее</v-tab>
-      <v-tab :value="2">Роли</v-tab>
-      <v-tab :value="3">Информационные системы</v-tab>
+      <v-tab v-if="isExist" :value="2">Роли</v-tab>
+      <v-tab v-if="isExist" :value="3">Информационные системы</v-tab>
     </v-tabs>
     <v-window
       v-model="tab"
@@ -30,8 +30,9 @@
         <editing-user-common
           :user="user"
           :edited="edited"
+          :exist="isExist"
           @change="onChange()"
-          @save="onSave()"
+          @save="isExist ? onSave() : onAdd()"
           @cancel="onCancel()"
           class="mx-1 my-2"
         >
@@ -97,6 +98,7 @@ import store from '@/store';
 import EditingUserCommon from '@/components/references/users/Common.vue';
 import EditingUserRoles from '@/components/references/users/Roles.vue';
 import EditingUserChoiceCard from '@/components/references/users/ChoiceCard.vue';
+import router from '@/router';
 
 export default {
   name: 'EditingUser',
@@ -122,6 +124,14 @@ export default {
     onCancel(){
       Object.assign(this.user,this.refUser);
       this.edited = false;
+    },
+    onAdd(){
+      Object.assign(this.refUser,this.user);
+      this.edited = false;
+      store.dispatch('addUser',this.user);
+      //TODO ищем id по другому
+      let id = store.getters.getUsers[store.getters.getUsers.length-1].id;
+      router.push({name: 'editingUser', params: {id: id}})
     },
     addRole(roleId){
       store.dispatch('addRoleToUser', {roleId: roleId, userId: this.id});
@@ -151,6 +161,11 @@ export default {
   }),
   mounted: function(){
     this.getData();
+  },
+  computed:{
+    isExist: function(){
+      return !!this.id;
+    }
   }
 }
 </script>

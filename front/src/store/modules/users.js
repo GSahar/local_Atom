@@ -47,20 +47,25 @@ export default {
     setUser(state,payload){
       state.users = state.users.map(user => {
         if(user.id === payload.editedUser.id)
-          return common.copyObject(payload.editedUser);
+          return common.copyObject({...payload.editedUser, password: ''});
         return user;
       });
     },
-    addUser(state){
+    addUser(state,payload){
       //TODO Временно генерим id -> потом будем генерить в базе
       let id = state.users.length > 0 ? state.users[state.users.length-1].id + 1 : 1;
       state.users.push({
         id: id,
-        lastName: '',
-        firstName: '',
-        secondName: '',
-        place: '',
-        job: ''
+        lastName: payload.lastName,
+        firstName: payload.firstName,
+        secondName: payload.secondName,
+        place: payload.place,
+        job: payload.job,
+        photo: payload.photo,
+        email: payload.email,
+        password: '',
+        roles: [],
+        task_roles: []
       })
     },
     removeUser(state, payload){
@@ -122,9 +127,9 @@ export default {
       //TODO изменение в базе
       commit('setUser', editedUser);
     },
-    addUser({commit}){
+    addUser({commit},user){
       //TODO вставка пользователя в базу
-      commit('addUser');
+      commit('addUser',user);
     },
     removeUser({commit},id){
       //TODO удаление из базы
