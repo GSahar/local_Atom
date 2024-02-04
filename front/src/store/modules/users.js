@@ -11,22 +11,8 @@ export default {
         place: 'Отдел технического анализа',
         job: 'Аналитик',
         photo: '',
-        roles: [
-          {
-            id: 1,
-            name: 'basic'
-          },
-          {
-            id: 2,
-            name: 'analys'
-          }
-        ],
-        task_roles: [
-          {
-            id: 1,
-            name: 'Analytics - Main'
-          }
-        ]
+        roles: [],
+        task_roles: []
       },
       {
         id: 2,
@@ -81,6 +67,54 @@ export default {
       state.users = state.users.filter(user => {
         return user.id !== payload.id;
       });
+    },
+    addRoleToUser(state, payload){
+      state.users = state.users.map(user => {
+        let roles = user.roles;
+        if(user.id == payload.userId && !roles.find(role => role.id == payload.roleId)){
+          roles.push(payload.rootState.roles.roles.find(role => role.id == payload.roleId));
+        }
+        return {
+          ...user,
+          roles: roles
+        }
+      })
+    },
+    addTaskRoleToUser(state, payload){
+      state.users = state.users.map(user => {
+        let taskRoles = user.task_roles;
+        if(user.id == payload.userId && !taskRoles.find(task_role => task_role.id == payload.taskRoleId)){
+          taskRoles.push(payload.rootState.task_roles.task_roles.find(task_role => task_role.id == payload.taskRoleId));
+        }
+        return {
+          ...user,
+          task_roles: taskRoles
+        }
+      })
+    },
+    removeRoleFromUser(state, payload){
+      state.users = state.users.map(user => {
+        let roles = user.roles;
+        if(user.id == payload.userId){
+          roles = roles.filter(role => role.id != payload.roleId);
+        }
+        return {
+          ...user,
+          roles: roles
+        }
+      })
+    },
+    removeTaskRoleFromUser(state, payload){
+      state.users = state.users.map(user => {
+        let taskRoles = user.task_roles;
+        if(user.id == payload.userId){
+          taskRoles = taskRoles.filter(task_role => task_role.id != payload.taskRoleId);
+        }
+        return {
+          ...user,
+          task_roles: taskRoles
+        }
+      })
     }
   },
   actions: {
@@ -97,6 +131,26 @@ export default {
       commit('removeUser',{
         id: id
       });
+    },
+    addRoleToUser({commit, rootState}, newRole){
+      commit('addRoleToUser',{
+        rootState: rootState,
+        userId: newRole.userId,
+        roleId: newRole.roleId
+      })
+    },
+    addTaskRoleToUser({commit, rootState}, newTaskRole){
+      commit('addTaskRoleToUser',{
+        rootState: rootState,
+        userId: newTaskRole.userId,
+        taskRoleId: newTaskRole.taskRoleId
+      })
+    },
+    removeRoleFromUser({commit}, role){
+      commit('removeRoleFromUser', role)
+    },
+    removeTaskRoleFromUser({commit}, taskRole){
+      commit('removeTaskRoleFromUser', taskRole)
     }
   },
 
