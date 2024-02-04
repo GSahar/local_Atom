@@ -1,4 +1,6 @@
-export const theme = {
+
+
+export default {
   primary: '#4caf50',
   secondary: '#4caf50',
   tertiary: '#495057',
@@ -9,5 +11,3 @@ export const theme = {
   warning: '#ffa21a',
   general: '#2196F3'
 }
-
-export default {}

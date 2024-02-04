@@ -16,12 +16,14 @@ export default {
   getters: {
     getTasks(state){
       return state.tasks;
+    },
+    getTask: (state) => (taskId) => {
+      return state.tasks.filter(task => task.id == taskId)[0]
     }
   },
   mutations: {
     setTask(state,payload){
       state.tasks = state.tasks.map(task => {
-        console.log(payload);
         if(task.id === payload.editedTask.id)
           return common.copyObject(payload.editedTask);
         return task;
@@ -29,7 +31,7 @@ export default {
     },
     addTask(state){
       //TODO Временно генерим id -> потом будем генерить в базе
-      let id = state.tasks[state.tasks.length-1].id + 1
+      let id = state.tasks.length > 0 ? state.tasks[state.tasks.length-1].id + 1 : 1;
       state.tasks.push({
         id: id,
         name: '',

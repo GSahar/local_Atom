@@ -8,8 +8,14 @@ export default {
         name: 'Общая',
         task_roles: [
           {
-            id: 3,
-            name: 'Личный кабинет - Main'
+            id: 24,
+            task_id: 1,
+            name: 'Main',
+          },
+          {
+            id: 25,
+            task_id: 2,
+            name: 'Main',
           }
         ]
       },
@@ -33,7 +39,6 @@ export default {
   mutations: {
     setRole(state,payload){
       state.roles = state.roles.map(role => {
-        console.log(payload);
         if(role.id === payload.editedRole.id)
           return common.copyObject(payload.editedRole);
         return role;
@@ -41,7 +46,7 @@ export default {
     },
     addRole(state){
       //TODO Временно генерим id -> потом будем генерить в базе
-      let id = state.roles[state.roles.length-1].id + 1
+      let id = state.roles.length > 0 ? state.roles[state.roles.length-1].id + 1 : 1;
       state.roles.push({
         id: id,
         name: ''
@@ -53,10 +58,35 @@ export default {
       });
     },
     addTaskRoleToRole(state, payload){
-      state
-        .roles[payload.newTaskRole.role_id]
-        .task_roles
-        .push(state.task_roles[payload.newTaskRole.task_role_id]);
+      let role_id = payload.newTaskRole.role_id
+      state.roles = state.roles.map(role => {
+        if(role.id == role_id){
+          let taskRoles = role.task_roles;
+          let newTaskRole = payload.rootState.task_roles.task_roles.filter(role => role.id == payload.newTaskRole.task_role_id)[0];
+          if(taskRoles.filter(item => item.id == newTaskRole.id).length > 0) return role
+          taskRoles.push(newTaskRole);
+          return {
+            ...role,
+            task_roles: taskRoles
+          }
+        }
+        return role;
+      })
+    },
+    removeTaskRoleFromRole(state, payload){
+      let role_id = payload.taskRole.role_id
+      state.roles = state.roles.map(role => {
+        if(role.id == role_id){
+          let taskRoles = role.task_roles;
+          let taskRoleId = payload.rootState.task_roles.task_roles.filter(role => role.id == payload.taskRole.task_role_id)[0].id;
+          taskRoles = taskRoles.filter(item => item.id != taskRoleId)
+          return {
+            ...role,
+            task_roles: taskRoles
+          }
+        }
+        return role;
+      })
     }
   },
   actions: {
@@ -74,8 +104,11 @@ export default {
         id: id
       });
     },
-    addTaskRoleToRole({commit}, newTaskRole){
-      commit('addTaskRoleToRole', newTaskRole);
+    addTaskRoleToRole({commit, rootState}, newTaskRole){
+      commit('addTaskRoleToRole', {rootState: rootState,newTaskRole: newTaskRole});
+    },
+    removeTaskRoleFromRole({commit, rootState}, taskRole){
+      commit('removeTaskRoleFromRole', {rootState: rootState,taskRole: taskRole});
     }
   },
 
