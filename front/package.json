@@ -20,7 +20,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
-    "axios": "^0.18.1",
+    "axios": "^1.6.5",
     "eslint": "^8.37.0",
     "eslint-plugin-vue": "^9.3.0",
     "sass": "^1.60.0",
@@ -28,5 +28,8 @@
     "vite": "^4.2.0",
     "vite-plugin-vuetify": "^1.0.0",
     "vue-cli-plugin-axios": "~0.0.4"
+  },
+  "volta": {
+    "node": "16.20.2"
   }
 }

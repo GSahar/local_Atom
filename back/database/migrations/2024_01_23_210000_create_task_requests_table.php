@@ -12,7 +12,8 @@ class CreateTaskRequestsTable extends Migration
             $table->id();
             $table->foreignId('task_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->foreignId('status_id')->constrained();
+            $table->string('comment');
             $table->timestamps();
         });
     }

@@ -1,17 +1,18 @@
 <?php
 
+use App\Models\TaskRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\TaskRequestsController;
-use App\Http\Controllers\AuditsController;
-use App\Http\Controllers\DepartmentsController;
-use App\Http\Controllers\PermissionsController;
-use App\Http\Controllers\ReportsController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\UsersController;
-
+use App\Http\Controllers\AuditsController;
+use App\Http\Controllers\ReportsController;
+use App\Http\Resources\TaskRequestResource;
+use App\Http\Controllers\DepartmentsController;
+use App\Http\Controllers\PermissionsController;
+use App\Http\Controllers\TaskRequestsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/login', [UsersController::class, 'login']);
 Route::get('/register', [UsersController::class, 'register']);
+
 Route::get('/users', [UsersController::class, 'index']);
 Route::get('/users/{id}',[UsersController::class, 'getUser']);
 
@@ -37,7 +39,9 @@ Route::get('/roles', [RolesController::class, 'index']);
 
 Route::get('/permissions', [PermissionsController::class, 'index']);
 
-Route::get('/requests', [TaskRequestsController::class, 'index']);
+Route::get('/requests', function () {
+    return TaskRequestResource::collection(TaskRequest::all());
+});
 
 Route::get('/tasks', [TasksController::class, 'index']);
 
