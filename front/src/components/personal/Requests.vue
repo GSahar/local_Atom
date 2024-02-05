@@ -3,7 +3,8 @@
     class="d-flex
            flex-row
            justify-space-between
-           w-100"
+           w-100
+           px-2"
   >
     <div class="w-25 mb-3 ms-1">
       <v-text-field
@@ -14,10 +15,17 @@
         class="w-10"
         prepend-icon="mdi-magnify"
         v-model="searchValue"
-        @input="search"
       ></v-text-field>
     </div>
-    <v-spacer></v-spacer>
+    <v-btn
+      color="general"
+      class="mt-6 me-2"
+      @click="create()"
+      prepend-icon="mdi-plus"
+    >
+      Создать заявку
+    </v-btn>
+
   </div>
   <section>
     <v-data-table
@@ -46,6 +54,60 @@
       </template>
   </v-data-table>
   </section>
+
+  <v-dialog width="500" v-model="dialog">
+
+  <template v-slot:default="{ isActive }">
+    <v-card >
+      <v-card-title primary-title>
+        Создание заявки
+      </v-card-title>
+
+      <v-form
+        class="mx-4"
+        @submit.prevent="submit"
+        v-model="valid"
+      >
+
+        <v-autocomplete
+          label="Информационный ресурс"
+          variant="underlined"
+          name="task"
+          v-model="taskReq"
+          :items="tasks"
+          item-title="name"
+          item-value="id"
+          :rule="rules.default"
+        >
+
+        </v-autocomplete>
+
+        <v-textarea
+          name="name"
+          label="Коментарий"
+          variant="underlined"
+          id="id"
+        ></v-textarea>
+
+
+
+      <v-card-actions>
+        <v-btn
+          text="Создать"
+          color="general"
+          type="submit"
+        ></v-btn>
+
+        <v-btn
+          text="Отмена"
+          color="error"
+          @click="isActive.value = false"
+        ></v-btn>
+      </v-card-actions>
+     </v-form>
+    </v-card>
+  </template>
+</v-dialog>
 </template>
 <script>
 import store from '@/store/index';
@@ -88,12 +150,29 @@ export default {
       { title: '', align: 'end', key: 'actions', sortable: false }
     ],
     refItems: store.getters.getRequestsByUser(2),
-    page:1
+    page:1,
+    dialog: false,
+    tasks: store.getters.getTasks,
+    valid: false,
+    taskReq: ''
   }),
   methods: {
-    search(){
-
+    create(){
+      this.dialog = true;
     },
+    getDefaultRule(){
+      return value => {
+          if (!value || (value && value.length == 0)) return 'Заполните поле!';
+          return true;
+        }
+    },
+    submit(){
+      if(this.valid){
+        this.dialog = false;
+        console.log(this.taskReq);
+        //TODO создание заявки
+      }
+    }
   },
   computed:{
     pageCount: function(){
@@ -109,7 +188,21 @@ export default {
           type: store.getters.getTaskType(task.type).name,
           manager: manager.lastName + ' ' + manager.firstName.substring(0,1) + '.' + manager.secondName.substring(0,1)
         }
-      })
+      }).filter(
+        item => {
+          return item.name.toLocaleUpperCase().indexOf(this.searchValue.toLocaleUpperCase()) != -1 ||
+                 item.type.toLocaleUpperCase().indexOf(this.searchValue.toLocaleUpperCase()) != -1 ||
+                 item.manager.toLocaleUpperCase().indexOf(this.searchValue.toLocaleUpperCase()) != -1 ||
+                 item.status.toLocaleUpperCase().indexOf(this.searchValue.toLocaleUpperCase()) != -1
+        }
+      )
+    },
+    rules: function(){
+      return {
+        default: [
+          this.getDefaultRule()
+        ]
+      }
     }
   },
   mounted: function(){
