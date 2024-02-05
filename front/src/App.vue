@@ -33,7 +33,7 @@ export default {
   },
   mounted: function(){
     this.getInitailData();
-    this.configureGuard();
+    //this.configureGuard();
   }
 }
 </script>

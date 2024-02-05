@@ -1,11 +1,11 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
 import requests from './requests'
-import references from './references'
+import admin from './admin'
 
 var childrenRoutes = [
   requests,
-  references
+  admin
 ];
 
 const routes = [

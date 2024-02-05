@@ -61,8 +61,8 @@
 <script>
 import common from '@/services/common';
 import store from '@/store';
-import  EditingRoleTasks from '@/components/references/roles/TaskRoles.vue'
-import  EditingRoleTasksCard from '@/components/references/roles/EditCard.vue'
+import  EditingRoleTasks from '@/components/admin/roles/TaskRoles.vue'
+import  EditingRoleTasksCard from '@/components/admin/roles/EditCard.vue'
 
 export default {
   name: 'EditingTask',

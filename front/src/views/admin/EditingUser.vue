@@ -95,9 +95,9 @@
 <script>
 import common from '@/services/common.js';
 import store from '@/store';
-import EditingUserCommon from '@/components/references/users/Common.vue';
-import EditingUserRoles from '@/components/references/users/Roles.vue';
-import EditingUserChoiceCard from '@/components/references/users/ChoiceCard.vue';
+import EditingUserCommon from '@/components/admin/users/Common.vue';
+import EditingUserRoles from '@/components/admin/users/Roles.vue';
+import EditingUserChoiceCard from '@/components/admin/users/ChoiceCard.vue';
 import router from '@/router';
 
 export default {
