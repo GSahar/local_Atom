@@ -15,6 +15,7 @@
             prepend-icon="mdi-list-box"
             title="Заявки"
             value="requests"
+            :to="{name: 'Requests'}"
           ></v-list-item>
           <v-list-group >
             <template v-slot:activator="{ props }">

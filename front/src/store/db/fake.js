@@ -44,7 +44,7 @@ const fake = {
   task_types: [
     {
       id: 1,
-      name: 'WEB-приложение'
+      name: 'WEB - приложение'
     },
     {
       id: 2,

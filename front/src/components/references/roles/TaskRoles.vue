@@ -24,35 +24,35 @@
       item-key="id"
       style="height: 100%"
     >
-    <template v-slot:item="{ item }">
-      <tr
-        :class="selected == item.id ? 'selected-row' : ''"
-        @click="setSelected(item.id)"
-        style="cursor: pointer;"
-      >
-        <td>
-          {{ item.name }}
-        </td>
-        <td style="width: 50px;">
-          <v-icon
-          size="small"
-          color="error"
-          @click="deleteTaskRole(item.id, $event)"
+      <template v-slot:item="{ item }">
+        <tr
+          :class="selected == item.id ? 'selected-row' : ''"
+          @click="setSelected(item.id)"
+          style="cursor: pointer;"
         >
-          mdi-delete
-        </v-icon>
-        </td>
-      </tr>
+          <td>
+            {{ item.name }}
+          </td>
+          <td style="width: 50px;">
+            <v-icon
+            size="small"
+            color="error"
+            @click="deleteTaskRole(item.id, $event)"
+          >
+            mdi-delete
+          </v-icon>
+          </td>
+        </tr>
 
-    </template>
-    <template v-slot:bottom>
-            <div class="text-center pt-2">
-              <v-pagination
-                v-model="page"
-                :length="pageCount"
-              ></v-pagination>
-            </div>
-          </template>
+      </template>
+      <template v-slot:bottom>
+        <div class="text-center pt-2">
+          <v-pagination
+            v-model="page"
+            :length="pageCount"
+          ></v-pagination>
+        </div>
+      </template>
     </v-data-table>
   </div>
   </v-card>
