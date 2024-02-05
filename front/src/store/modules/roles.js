@@ -1,35 +1,9 @@
-import common from "@/services/common"
+import common from "@/services/common";
+import DB from '@/store/db/db';
 
 export default {
   state: {
-    roles: [
-      {
-        id: 1,
-        name: 'Общая',
-        task_roles: [
-          {
-            id: 24,
-            task_id: 1,
-            name: 'Main',
-          },
-          {
-            id: 25,
-            task_id: 2,
-            name: 'Main',
-          }
-        ]
-      },
-      {
-        id: 2,
-        name: 'Бухгалтер',
-        task_roles: []
-      },
-      {
-        id: 3,
-        name: 'Аналитик',
-        task_roles: []
-      }
-    ]
+    roles: []
   },
   getters: {
     getRoles(state){
@@ -44,12 +18,13 @@ export default {
         return role;
       });
     },
-    addRole(state){
+    addRole(state,payload){
       //TODO Временно генерим id -> потом будем генерить в базе
       let id = state.roles.length > 0 ? state.roles[state.roles.length-1].id + 1 : 1;
       state.roles.push({
-        id: id,
-        name: ''
+        id: payload.id,
+        name: payload.name??'',
+        description: payload.description??''
       })
     },
     removeRole(state, payload){
@@ -109,6 +84,28 @@ export default {
     },
     removeTaskRoleFromRole({commit, rootState}, taskRole){
       commit('removeTaskRoleFromRole', {rootState: rootState,taskRole: taskRole});
+    },
+    async getRolesFromDB({commit}){
+      let roles = await DB.getRoles();
+      for(let role of roles.data){
+        //let photoURL = URL.createObjectURL(user.photo);
+        //TODO photo
+        commit('addRole',{
+          id: role.id,
+          name: role.name,
+          description: role.description,
+        })
+      }
+    },
+    async addNewRole({commit}, newRole){
+      let role = await DB.storeRole({
+        ...newRole
+      });
+      commit('addRole',{
+        id: role.id,
+        name: role.name,
+        description: role.description
+      })
     }
   },
 

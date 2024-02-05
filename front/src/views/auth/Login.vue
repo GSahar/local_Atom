@@ -44,10 +44,20 @@
   </v-app>
 </template>
 <script>
+import store from '@/store';
+
 export default {
+  data: () => ({
+    email: '',
+    password: ''
+  }),
   methods: {
-    login(){
-      this.$router.push('/idm')
+    async login(){
+      if(await store.dispatch('login',{
+        email: this.email,
+        password: this.password
+      }))
+        this.$router.push('/idm')
     }
   }
 }
