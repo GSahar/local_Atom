@@ -32,8 +32,8 @@ export default {
     }
   },
   mounted: function(){
-    this.getInitailData();
-    this.configureGuard();
+    //this.getInitailData();
+    //this.configureGuard();
   }
 }
 </script>

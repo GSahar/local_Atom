@@ -1,11 +1,19 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
-import requests from './requests'
-import references from './references'
+import admin from './admin'
 
 var childrenRoutes = [
-  requests,
-  references
+  admin,
+  {
+    path: '/personal',
+    name: 'Personal',
+    component: () => import('@/views/personal/Index.vue'),
+  },
+  {
+    path: '/requests',
+    name: 'Requests',
+    component: () => import('@/views/requests/Index.vue'),
+  },
 ];
 
 const routes = [

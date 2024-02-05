@@ -1,9 +1,10 @@
 import common from "@/services/common";
 import DB from '@/store/db/db';
+import fake from '../db/fake';
 
 export default {
   state: {
-    tasks: []
+    tasks: fake.tasks
   },
   getters: {
     getTasks(state){
@@ -12,6 +13,7 @@ export default {
     getTask: (state) => (taskId) => {
       return state.tasks.filter(task => task.id == taskId)[0]
     }
+
   },
   mutations: {
     setTask(state,payload){

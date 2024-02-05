@@ -27,34 +27,16 @@
     hide-actions
     item-key="id"
   >
-    <template v-slot:item.actions="{ item }">
-      <div
-        class="d-flex flex-row"
-        v-if="item.status == 'На согласовании'"
-      >
-        <v-btn
-          color="success"
-          variant="plain"
-        >
-          Согласовать
-        </v-btn>
-        <v-btn
-          color="error"
-          variant="plain"
-        >
-          Отменить
-        </v-btn>
-      </div>
-      <v-btn
-        v-if="item.status == 'Согласовано'"
-        color="general"
-        variant="plain"
-      >
-        Выполнить
-      </v-btn>
-    </template>
+  <template v-slot:item.actions="{ item }">
+    <v-btn
+      color="error"
+      variant="plain"
+    >
 
-      <template v-slot:bottom>
+      Отменить
+    </v-btn>
+    </template>
+    <template v-slot:bottom>
         <div class="text-center pt-2">
           <v-pagination
             v-model="page"
@@ -86,12 +68,6 @@ export default {
         key: 'type',
       },
       {
-        title: 'Пользователь',
-        align: 'start',
-        sortable: true,
-        key: 'user',
-      },
-      {
         title: 'Согласующий',
         align: 'start',
         sortable: true,
@@ -118,7 +94,6 @@ export default {
     search(){
 
     },
-
   },
   computed:{
     pageCount: function(){
@@ -128,12 +103,10 @@ export default {
       return this.refItems.map(item => {
         let task = store.getters.getTask(item.task_id);
         let manager = store.getters.getUser(item.manager_id);
-        let user = store.getters.getUser(item.user_id);
         return {
           ...item,
           name: task.name,
           type: store.getters.getTaskType(task.type).name,
-          user: user.lastName + ' ' + user.firstName.substring(0,1) + '.' + user.secondName.substring(0,1),
           manager: manager.lastName + ' ' + manager.firstName.substring(0,1) + '.' + manager.secondName.substring(0,1)
         }
       })

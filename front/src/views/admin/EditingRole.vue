@@ -59,8 +59,8 @@
 <script>
 import common from '@/services/common';
 import store from '@/store';
-import EditingRoleTasks from '@/components/references/roles/TaskRoles.vue';
-import EditingRoleChoiceCard from '@/components/references/roles/ChoiceCard.vue';
+import EditingRoleTasks from '@/components/admin/roles/TaskRoles.vue';
+import EditingRoleChoiceCard from '@/components/admin/roles/ChoiceCard.vue';
 
 export default {
   name: 'EditingRole',

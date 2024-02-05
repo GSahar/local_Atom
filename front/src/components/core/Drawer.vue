@@ -5,34 +5,25 @@
         theme="light"
       >
         <v-list nav>
-          <v-list-group value="requests">
+          <v-list-item
+            prepend-icon="mdi-account"
+            title="Личный кабинет"
+            value="personal"
+            :to="{name: 'Personal'}"
+          ></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-list-box"
+            title="Заявки"
+            value="requests"
+            :to="{name: 'Requests'}"
+          ></v-list-item>
+          <v-list-group >
             <template v-slot:activator="{ props }">
               <v-list-item
                 v-bind="props"
-                prepend-icon="mdi-list-box"
-                title="Заявки"
-                value="requests"
-              ></v-list-item>
-            </template>
-            <v-list-item
-              title="Мои заявки"
-              value="my-requests"
-              :to="{name: 'my-requests'}"
-            ></v-list-item>
-            <v-list-item
-              title="Входящие заявки"
-              value="incoming-requests"
-              :to="{name: 'incoming-requests'}"
-            ></v-list-item>
-          </v-list-group>
-
-          <v-list-group value="references">
-            <template v-slot:activator="{ props }">
-              <v-list-item
-                v-bind="props"
-                prepend-icon="mdi-folder-account"
-                title="Справочники"
-                value="reference"
+                prepend-icon="mdi-cog"
+                title="Администрирование"
+                value="admin"
               ></v-list-item>
             </template>
             <v-list-item
@@ -51,10 +42,6 @@
               :to="{name: 'tasks'}"
             ></v-list-item>
           </v-list-group>
-
-
-
-          <v-list-item prepend-icon="mdi-cog" title="Администрирование" value="administration"></v-list-item>
           <v-list-item prepend-icon="mdi-eye-circle" title="Аудит" value="audit"></v-list-item>
           <v-list-item prepend-icon="mdi-chart-box" title="Отчеты" value="reports"></v-list-item>
 
