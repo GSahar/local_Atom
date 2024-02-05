@@ -28,14 +28,13 @@
     item-key="id"
   >
   <template v-slot:item.actions="{ item }">
-      <v-icon
-        size="small"
-        class="me-2"
-        color="general"
-        @click="openTask(item.id)"
-      >
-        mdi-forward
-      </v-icon>
+    <v-btn
+      color="error"
+      variant="plain"
+    >
+
+      Отменить
+    </v-btn>
     </template>
     <template v-slot:bottom>
         <div class="text-center pt-2">
@@ -68,9 +67,27 @@ export default {
         sortable: true,
         key: 'type',
       },
+      {
+        title: 'Согласующий',
+        align: 'start',
+        sortable: true,
+        key: 'manager',
+      },
+      {
+        title: 'Состояние',
+        align: 'start',
+        sortable: true,
+        key: 'status',
+      },
+      {
+        title: 'Комментарий',
+        align: 'start',
+        sortable: true,
+        key: 'comment',
+      },
       { title: '', align: 'end', key: 'actions', sortable: false }
     ],
-    refItems: store.getters.getUserTasks(1),
+    refItems: store.getters.getRequestsByUser(2),
     page:1
   }),
   methods: {
@@ -83,12 +100,14 @@ export default {
       return Math.ceil(this.items.length/9)
     },
     items: function(){
-      return this.refItems.filter(item => {
-        return item.name.toLocaleUpperCase().indexOf(this.searchValue.toLocaleUpperCase()) != -1
-      }).map(item => {
+      return this.refItems.map(item => {
+        let task = store.getters.getTask(item.task_id);
+        let manager = store.getters.getUser(item.manager_id);
         return {
           ...item,
-          type: store.getters.getTaskType(item.type)?.name??'Не указан'
+          name: task.name,
+          type: store.getters.getTaskType(task.type).name,
+          manager: manager.lastName + ' ' + manager.firstName.substring(0,1) + '.' + manager.secondName.substring(0,1)
         }
       })
     }

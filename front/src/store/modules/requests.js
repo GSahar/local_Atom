@@ -1,9 +1,10 @@
 import common from "@/services/common";
 import DB from '@/store/db/db';
+import fake from "../db/fake";
 
 export default {
   state: {
-    requests: []
+    requests: fake.requests
   },
   getters: {
     getRequests(state){
@@ -31,7 +32,8 @@ export default {
         id: payload.id,
         task_id: payload.task_id,
         user_id: payload.user_id,
-        status: payload.status
+        status: payload.status,
+        comment: payload.comment
       })
     },
     removeRequest(state, payload){
