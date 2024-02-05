@@ -9,9 +9,9 @@
             prepend-icon="mdi-account"
             title="Личный кабинет"
             value="personal"
+            :to="{name: 'Personal'}"
           ></v-list-item>
           <v-list-item
-            v-bind="props"
             prepend-icon="mdi-list-box"
             title="Заявки"
             value="requests"

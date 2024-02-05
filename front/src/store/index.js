@@ -3,9 +3,9 @@ import drawer from './modules/drawer';
 import users from './modules/users';
 import roles from './modules/roles';
 import tasks from './modules/tasks';
-import task_roles from './modules/task_roles';
 import requests from './modules/requests';
 import auth from './modules/auth';
+import task_types from './modules/task_types';
 
 export default createStore({
   modules: {
@@ -13,8 +13,8 @@ export default createStore({
     users,
     roles,
     tasks,
-    task_roles,
     requests,
-    auth
+    auth,
+    task_types
   }
 })

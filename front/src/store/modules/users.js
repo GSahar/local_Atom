@@ -1,9 +1,10 @@
 import common from "@/services/common";
 import DB from '@/store/db/db';
+import fake from "../db/fake";
 
 export default {
   state: {
-    users: []
+    users: fake.users
   },
   getters: {
     getUsers(state){
@@ -11,6 +12,12 @@ export default {
     },
     getUser: (state) => (userId) => {
       return state.users.find(user => user.id == userId);
+    },
+    getUserTasks: (state) => (userId) => {
+      console.log(state.users);
+      let roles = state.users.find(user => user.id == userId)?.roles??[];
+      let tasks = Array.from(new Set(roles.map(role => role.tasks))).flat()
+      return tasks;
     }
   },
   mutations: {
@@ -25,17 +32,7 @@ export default {
       //TODO Временно генерим id -> потом будем генерить в базе
       let id = state.users.length > 0 ? state.users[state.users.length-1].id + 1 : 1;
       state.users.push({
-        id: id,
-        lastName: payload.lastName,
-        firstName: payload.firstName,
-        secondName: payload.secondName,
-        place: payload.place,
-        job: payload.job,
-        photo: payload.photo,
-        email: payload.email,
-        password: '',
-        roles: [],
-        task_roles: []
+        C
       })
     },
     removeUser(state, payload){
@@ -142,8 +139,7 @@ export default {
           photo: null,
           email: user.email??'Не указан',
           password: '',
-          roles: [],
-          task_roles: []
+          roles: []
         })
       }
     },
@@ -161,8 +157,7 @@ export default {
         photo: null,
         email: user.email??'Не указан',
         password: '',
-        roles: [],
-        task_roles: []
+        roles: []
       });
     }
   },

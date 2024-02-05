@@ -5,7 +5,12 @@ import admin from './admin'
 
 var childrenRoutes = [
   requests,
-  admin
+  admin,
+  {
+    path: '/personal',
+    name: 'Personal',
+    component: () => import('@/views/personal/Index.vue'),
+  }
 ];
 
 const routes = [

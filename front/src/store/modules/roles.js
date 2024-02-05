@@ -1,9 +1,10 @@
 import common from "@/services/common";
 import DB from '@/store/db/db';
+import fake from "../db/fake";
 
 export default {
   state: {
-    roles: []
+    roles: fake.roles
   },
   getters: {
     getRoles(state){
