@@ -106,6 +106,7 @@ export default {
       ]
     },
     filteredRoles: function(){
+      if(!this.roles || this.roles == []) return [];
       let mappedRoles = [];
       if(this.type != 'taskRoles')
         mappedRoles = this.roles.map(role => role);

@@ -9,8 +9,31 @@
   }
 </style>
 <script>
-// checks to see if auth jwt token is valid or has expired, if it gets back 401 error log out
-export default {
+import router from './router';
+import store from './store';
 
+export default {
+  methods:{
+    getInitailData(){
+      store.dispatch('getUsersFromDB');
+      store.dispatch('getRolesFromDB');
+      store.dispatch('getTasksFromDB');
+      store.dispatch('getRequestsFromDB');
+    },
+    configureGuard(){
+      router.beforeEach(async (to, from) => {
+        const auth = await store.getters.getAuth;
+        console.log(to);
+        if (to.name != 'login' && !auth.email) {
+          return {name: 'login'}
+        }
+        return true;
+      })
+    }
+  },
+  mounted: function(){
+    this.getInitailData();
+    this.configureGuard();
+  }
 }
 </script>

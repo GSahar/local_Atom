@@ -26,6 +26,7 @@
     :items="items"
     hide-actions
     item-key="id"
+    :loading="!isLoaded"
   >
   <template v-slot:item.actions="{ item }">
       <v-icon
@@ -74,15 +75,24 @@ export default {
           key: 'job', },
         { title: '', align: 'end', key: 'actions', sortable: false }
       ],
-      items: [],
       serverItems: [],
       loading: false,
       totalItems: 0,
       total:5,
-      searchValue: ''
+      searchValue: '',
+      isLoaded: false
     }),
   computed: {
-
+    items: function(){
+      let users = store.getters.getUsers;
+      if(users && users.length > 0) this.isLoaded = true;
+      return users.map(user => {
+        return {
+          ...user,
+          name: user.lastName + ' ' + user.firstName + ' ' + user.secondName
+        }
+      });
+    }
   },
   methods: {
     search(){
@@ -97,22 +107,14 @@ export default {
                     };
                   })??[];
     },
-    getUsers(){
-      this.items = store.getters.getUsers.map(user => {
-        return {
-          ...user,
-          name: user.lastName + ' ' + user.firstName + ' ' + user.secondName
-        }
-      });
-    },
     editUser(item){
       router.push({name: 'editingUser', params: {id: item.id}})
     },
     addUser(){
-      store.dispatch('addUser');
+      //store.dispatch('addUser');
       //TODO ищем id по другому
       let id = store.getters.getUsers[store.getters.getUsers.length-1].id;
-      router.push({name: 'editingUser', params: {id: id}})
+      router.push({name: 'createUser'})
     },
     removeUser(id){
       store.dispatch('removeUser',id);
@@ -120,7 +122,7 @@ export default {
     }
   },
   mounted: function(){
-    this.getUsers();
+
   }
 }
 </script>
