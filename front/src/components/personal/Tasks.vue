@@ -3,7 +3,8 @@
     class="d-flex
            flex-row
            justify-space-between
-           w-100"
+           w-100
+           px-2"
   >
     <div class="w-25 mb-3 ms-1">
       <v-text-field
